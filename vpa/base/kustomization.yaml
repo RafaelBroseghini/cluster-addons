@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: vpa
+
+helmCharts:
+  - name: vpa
+    releaseName: ttc-vpa
+    version: 1.6.0
+    repo: https://charts.fairwinds.com/stable
