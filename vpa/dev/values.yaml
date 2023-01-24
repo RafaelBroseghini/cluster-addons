@@ -1,0 +1,5 @@
+cluster:
+  name: minikube
+  namespace: vpa
+helm:
+  targetRevision: 1.6.0

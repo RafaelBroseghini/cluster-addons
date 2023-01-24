@@ -1,9 +1,0 @@
-namePrefix: dev-
-
-namespace: vpa
-
-helmCharts:
-  - name: vpa
-    releaseName: ttc-vpa
-    version: 1.3.0
-    repo: https://charts.fairwinds.com/stable

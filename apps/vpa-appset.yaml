@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: ttc-vpa
+spec:
+  generators:
+    - git:
+        repoURL: https://github.com/RafaelBroseghini/cluster-addons.git
+        revision: HEAD
+        files:
+          - path: "vpa/*/values.yaml"
+  template:
+    metadata:
+      name: "{{path[0]}}-{{path.basename}}"
+    spec:
+      project: default
+      source:
+        chart: vpa
+        repoURL: https://charts.fairwinds.com/stable
+        targetRevision: "{{helm.targetRevision}}"
+        helm:
+          valueFiles:
+            - values.yaml
+      destination:
+        name: "{{cluster.name}}"
+        namespace: "{{cluster.namespace}}"
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
