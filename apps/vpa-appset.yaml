@@ -20,6 +20,8 @@ spec:
         repoURL: https://charts.fairwinds.com/stable
         targetRevision: "{{helm.targetRevision}}"
         helm:
+          valueFiles:
+            - "values.yaml"
           values: |-
             {{values}}
       destination:
