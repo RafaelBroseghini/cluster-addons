@@ -23,7 +23,7 @@ spec:
     metadata:
       name: "ttc-vpa-{{path.basename}}"
     spec:
-      project: tce-cluster-addons
+      project: default
       source:
         repoURL: https://github.com/RafaelBroseghini/cluster-addons.git
         targetRevision: HEAD
