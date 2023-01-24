@@ -19,11 +19,11 @@ spec:
         chart: vpa
         repoURL: https://charts.fairwinds.com/stable
         targetRevision: "{{helm.targetRevision}}"
+        {{- if .values }}
         helm:
-          valueFiles:
-            - "values.yaml"
           values: |-
             {{values}}
+        {{- end }}
       destination:
         server: "{{cluster.url}}"
         namespace: vpa
