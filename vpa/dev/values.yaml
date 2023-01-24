@@ -2,5 +2,3 @@ cluster:
   url: https://kubernetes.default.svc
 helm:
   targetRevision: 1.6.0
-
-values: |
