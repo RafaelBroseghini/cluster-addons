@@ -1,9 +1,0 @@
-cluster:
-  url: https://kubernetes.default.svc
-helm:
-  targetRevision: 1.3.0
-
-values: |
-  recommender:
-    podLabels:
-      app: testing

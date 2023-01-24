@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: ttc-goldilocks
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - cluster: tools-lower
+            url: https://kubernetes.default.svc
+            version: v4.5.1
+          # - cluster: dev
+          #   url: https://ttc-dev-eastus2-726ce8a4.hcp.eastus2.azmk8s.io:443
+          #   version: v4.5.1
+          # - cluster: staging-east
+          #   url: https://ttc-staging-eastus2-26d34686.hcp.eastus2.azmk8s.io:443
+          #   version: v4.5.1
+          # - cluster: staging-west
+          #   url: https://ttc-staging-westus2-fdf3bbc6.hcp.westus2.azmk8s.io:443
+          #   version: v4.5.1
+          # - cluster: prod-east
+          #   url: https://ttc-prod-eastus2-245561fa.hcp.eastus2.azmk8s.io:443
+          #   version: v4.5.1
+          # - cluster: prod-west
+          #   url: https://ttc-prod-westus2-f1c54a7f.hcp.westus2.azmk8s.io:443
+          #   version: v4.5.1
+  template:
+    metadata:
+      name: "ttc-goldilocks-{{cluster}}"
+    spec:
+      project: tce-cluster-addons
+      source:
+        repoURL: https://github.com/FairwindsOps/goldilocks.git
+        targetRevision: "{{version}}"
+        path: hack/manifests/controller
+      destination:
+        server: "{{url}}"
+        namespace: goldilocks
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

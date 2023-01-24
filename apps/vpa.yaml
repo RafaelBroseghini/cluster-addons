@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: ttc-vpa
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - cluster: tools-lower
+            url: https://kubernetes.default.svc
+        # - cluster: dev
+        #   url: https://ttc-dev-eastus2-726ce8a4.hcp.eastus2.azmk8s.io:443
+        # - cluster: staging-east
+        #   url: https://ttc-staging-eastus2-26d34686.hcp.eastus2.azmk8s.io:443
+        # - cluster: staging-west
+        #   url: https://ttc-staging-westus2-fdf3bbc6.hcp.westus2.azmk8s.io:443
+        # - cluster: prod-east
+        #   url: https://ttc-prod-eastus2-245561fa.hcp.eastus2.azmk8s.io:443
+        # - cluster: prod-west
+        #   url: https://ttc-prod-westus2-f1c54a7f.hcp.westus2.azmk8s.io:443
+  template:
+    metadata:
+      name: "ttc-vpa-{{path.basename}}"
+    spec:
+      project: tce-cluster-addons
+      source:
+        repoURL: https://github.com/RafaelBroseghini/cluster-addons.git
+        targetRevision: HEAD
+        path: vpa/environments/{{cluster}}
+      destination:
+        server: "{{url}}"
+        namespace: vpa
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
