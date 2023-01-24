@@ -1,5 +1,5 @@
 cluster:
-  name: minikube
+  name: in-cluster
   namespace: vpa
 helm:
   targetRevision: 1.6.0
