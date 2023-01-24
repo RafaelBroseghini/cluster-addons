@@ -2,6 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: ttc-vpa
+  namespace: argocd
 spec:
   generators:
     - git:
@@ -11,7 +12,7 @@ spec:
           - path: "vpa/*/values.yaml"
   template:
     metadata:
-      name: "{{path[0]}}-{{path.basename}}"
+      name: "ttc-vpa-{{path.basename}}"
     spec:
       project: default
       source:
@@ -20,10 +21,12 @@ spec:
         targetRevision: "{{helm.targetRevision}}"
         helm:
           valueFiles:
-            - values.yaml
+            - "values.yaml"
+          values: |-
+            {{values}}
       destination:
-        name: "{{cluster.name}}"
-        namespace: "{{cluster.namespace}}"
+        server: "{{cluster.url}}"
+        namespace: vpa
       syncPolicy:
         automated:
           prune: true
