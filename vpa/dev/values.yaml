@@ -2,3 +2,5 @@ cluster:
   url: in-cluster
 helm:
   targetRevision: 1.6.0
+
+values: |
